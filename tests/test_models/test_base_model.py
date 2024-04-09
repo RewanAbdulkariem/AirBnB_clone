@@ -4,13 +4,9 @@ test BaseModel
 Created by Rewan Abdulkariem @9/4/2024
 """
 import os
-import sys
 import unittest
 from models.base_model import BaseModel
 from datetime import datetime
-
-sys.path.insert(0, os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..')))
 
 
 class TestBaseModel(unittest.TestCase):
