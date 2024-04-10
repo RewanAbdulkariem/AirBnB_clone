@@ -6,6 +6,7 @@ Created by Rewan Abdulkariem @9/4/2024
 import os
 import unittest
 from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
 from datetime import datetime
 
 
@@ -42,6 +43,13 @@ class TestBaseModel(unittest.TestCase):
         old_updated_at = self.model.updated_at
         self.model.save()
         self.assertNotEqual(old_updated_at, self.model.updated_at)
+    
+    def test_save_storage(self):
+        storage = FileStorage()
+        storage.new(self.model)
+        self.model.save()
+        storage.reload()
+        self.assertIn(f"BaseModel.{self.model.id}", storage.all())
 
     def test_to_dict(self):
         """
