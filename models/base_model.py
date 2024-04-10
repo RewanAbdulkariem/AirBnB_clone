@@ -5,6 +5,7 @@ Created by Rewan Abdulkariem @9/4/2024
 """
 from uuid import uuid4
 from datetime import datetime
+from models import storage
 
 
 class BaseModel:
@@ -19,20 +20,9 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """Initialize a new BaseModel instance."""
         if kwargs:
-            if 'id' in kwargs:
-                self.id = kwargs['id']
-            else:
-                self.id = str(uuid4())
-
-            if 'created_at' in kwargs:
-                self.created_at = kwargs['created_at']
-            else:
-                self.created_at = datetime.now()
-
-            if 'updated_at' in kwargs:
-                self.updated_at = kwargs['updated_at']
-            else:
-                self.updated_at = datetime.now()
+            self.id = kwargs.get('id', str(uuid4()))
+            self.created_at = kwargs.get('created_at', datetime.now())
+            self.updated_at = kwargs.get('updated_at', datetime.now())
 
             for key, value in kwargs.items():
                 if key not in ['id', 'created_at', 'updated_at', '__class__']:
@@ -42,10 +32,12 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            storage.new(self)
 
     def save(self):
         """Update the `updated_at` attribute with the current datetime."""
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
         """
