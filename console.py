@@ -21,6 +21,9 @@ class HBNBCommand(cmd.Cmd):
         "^d to exit the program\n"
         return True
 
+    def emptyline(self):
+        """Override default empty line"""
+        pass
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
