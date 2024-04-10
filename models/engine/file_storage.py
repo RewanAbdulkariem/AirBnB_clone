@@ -5,6 +5,8 @@ created by Rewan Abdulkariem @10/4/2024
 """
 import os
 import json
+from datetime import datetime
+from models.base_model import BaseModel
 
 
 class FileStorage:
@@ -15,11 +17,7 @@ class FileStorage:
 
     def all(self):
         """Returns the dictionary __objects."""
-        if os.path.exists(FileStorage.__file_path):
-            with open(FileStorage.__file_path, 'r') as f:
-                return (json.load(f))
-        else:
-            return FileStorage.__objects
+        return FileStorage.__objects
 
     def new(self, obj):
         """Sets in __objects the obj with key <obj class name>.id."""
@@ -36,14 +34,13 @@ class FileStorage:
 
     def reload(self):
         """Deserializes the JSON file to __objects if the file exists."""
-        try:
+        if os.path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, 'r') as f:
                 deserialized = json.load(f)
                 for key, value in deserialized.items():
                     class_name, obj_id = key.split('.')
                     obj_dict = value
+                    obj_dict['created_at'] = datetime.strptime(obj_dict['created_at'], "%Y-%m-%dT%H:%M:%S.%f")
+                    obj_dict['updated_at'] = datetime.strptime(obj_dict['updated_at'], "%Y-%m-%dT%H:%M:%S.%f")
 
-                    obj_dict['__class__'] = class_name
                     FileStorage.__objects[key] = eval(class_name)(**obj_dict)
-        except:
-            pass
