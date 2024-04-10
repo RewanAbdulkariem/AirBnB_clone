@@ -21,8 +21,8 @@ class BaseModel:
         """Initialize a new BaseModel instance."""
         if kwargs:
             self.id = kwargs.get('id', str(uuid4()))
-            self.created_at = kwargs.get('created_at', datetime.now())
-            self.updated_at = kwargs.get('updated_at', datetime.now())
+            self.created_at = self.parse_datetime(kwargs.get('created_at', datetime.now()))
+            self.updated_at = self.parse_datetime(kwargs.get('updated_at', datetime.now()))
 
             for key, value in kwargs.items():
                 if key not in ['id', 'created_at', 'updated_at', '__class__']:
@@ -33,6 +33,12 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
             models.storage.new(self)
+
+    def parse_datetime(self, value):
+        """Convert value to datetime object if it's a string."""
+        if isinstance(value, str):
+            return datetime.fromisoformat(value)
+        return value
 
     def save(self):
         """Update the `updated_at` attribute with the current datetime."""
