@@ -191,20 +191,25 @@ class HBNBCommand(cmd.Cmd):
         counter = 0
         for obj in storage.all().values():
             if args[0] == obj.__class__.__name__:
-                counter +=1
+                counter += 1
         print(counter)
 
     def default(self, line):
         """
         """
+        line = line.replace("(", ".")
+        line = line.replace(")", "")
+
         args = line.split('.')
         if len(args) < 2:
             return
-        if args[1] == 'all()':
+        if 'all' in args[1]:
             self.do_all(args[0])
-        elif args[1] == 'count()':
+        elif 'count' in args[1]:
             self.do_count(args[0])
-
+        elif 'show' in args[1]:
+            args[2] = args[2].replace("\"", "")
+            self.do_show(args[0] + " " + args[2])
 
 
 if __name__ == '__main__':
