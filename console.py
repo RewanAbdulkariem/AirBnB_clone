@@ -107,7 +107,7 @@ class HBNBCommand(cmd.Cmd):
         data = storage.all()
         key = f"{class_name}.{id}"
         del data[key]
-        storage.save
+        storage.save()
 
     def do_all(self, line):
         """
