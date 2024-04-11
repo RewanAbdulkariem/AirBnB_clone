@@ -14,7 +14,9 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
-current_classes = {'BaseModel': BaseModel, 'User' : User, 'Place' : Place, 'State' : State, 'City' : City, 'Amenity': Amenity, 'Review' : Review}
+current_classes = {'BaseModel': BaseModel, 'User': User,
+                   'Place': Place, 'State': State, 'City': City,
+                   'Amenity': Amenity, 'Review': Review}
 
 
 class HBNBCommand(cmd.Cmd):
@@ -78,6 +80,7 @@ class HBNBCommand(cmd.Cmd):
             print('** no instance found **')
             return False
         return args
+
     def do_show(self, line):
         """
         Show the string representation of an instance.
@@ -136,14 +139,15 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
 
-        print(["{}".format(str(val)) for _, val in data.items() if val.__class__.__name__ == class_name])
+        print(["{}".format(str(val)) for _, val in data.items()
+               if val.__class__.__name__ == class_name])
 
     def do_update(self, line):
         """
         Update an instance based on the class name and id.
 
         Usage:
-            update <class_name> <instance_id> <attribute_name> <attribute_value>
+            update <class_name> <instance_id> <attr_name> <attr_value>
         Example:
             update BaseModel 1234-1234-1234 email "airbnb@mail.com"
         """
@@ -164,7 +168,7 @@ class HBNBCommand(cmd.Cmd):
         class_name = args[0]
         id = args[1]
         attribute = args[2]
-        value = args [3]
+        value = args[3]
 
         if class_name not in current_classes:
             print("** class doesn't exist **")
@@ -180,3 +184,6 @@ class HBNBCommand(cmd.Cmd):
         setattr(instance, attribute, value)
         instance.save()
 
+
+if __name__ == '__main__':
+    HBNBCommand().cmdloop()
