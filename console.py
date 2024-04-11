@@ -198,6 +198,8 @@ class HBNBCommand(cmd.Cmd):
         """
         """
         line = line.replace("(", ".")
+        line = line.replace(", ", ".")
+        line = line.replace("\"", "")
         line = line.replace(")", "")
 
         args = line.split('.')
@@ -208,12 +210,11 @@ class HBNBCommand(cmd.Cmd):
         elif 'count' in args[1]:
             self.do_count(args[0])
         elif 'show' in args[1]:
-            args[2] = args[2].replace("\"", "")
             self.do_show(args[0] + " " + args[2])
         elif 'destroy' in args[1]:
-            args[2] = args[2].replace("\"", "")
             self.do_destroy(args[0] + " " + args[2])
-
+        elif 'update' in args[1]:
+            self.do_update(args[0] + " " + args[2] + " " + args[3] + " " + args[4])
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
