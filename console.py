@@ -16,7 +16,7 @@ class HBNBCommand(cmd.Cmd):
     Simple command processor example.
     """
     prompt = '(hbnb) '
-    
+
     def do_quit(self, line):
         "Quit command to exit the program\n"
         exit()
@@ -58,13 +58,13 @@ class HBNBCommand(cmd.Cmd):
         elif len(args) == 1:
             print('** instance id missing **')
             return False
-        
+
         class_name = args[0]
         id = args[1]
         if class_name not in current_classes:
             print("** class doesn't exist **")
             return False
-        
+
         data = storage.all()
         key = f"{class_name}.{id}"
         if key not in data:
@@ -108,7 +108,7 @@ class HBNBCommand(cmd.Cmd):
         key = f"{class_name}.{id}"
         del data[key]
         storage.save
-    
+
     def do_all(self, line):
         """
         Print all string representations of instances.
@@ -123,14 +123,55 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 0:
             print(["{}".format(str(val)) for _, val in data.items()])
             return
-        
+
         class_name = args[0]
         if class_name not in current_classes:
             print("** class doesn't exist **")
             return
-        
+
         print(["{}".format(str(val)) for _, val in data.items() if val.__class__.__name__ == class_name])
 
+    def do_update(self, line):
+        """
+        Update an instance based on the class name and id.
+
+        Usage:
+            update <class_name> <instance_id> <attribute_name> <attribute_value>
+        Example:
+            update BaseModel 1234-1234-1234 email "airbnb@mail.com"
+        """
+        args = line.split()
+        if len(args) == 0:
+            print('** class name missing **')
+            return
+        elif len(args) == 1:
+            print('** instance id missing **')
+            return
+        elif len(args) == 2:
+            print('** attribute name missing **')
+            return
+        elif len(args) == 3:
+            print('** value missing **')
+            return
+
+        class_name = args[0]
+        id = args[1]
+        attribute = args[2]
+        value = args [3]
+
+        if class_name not in current_classes:
+            print("** class doesn't exist **")
+            return
+
+        data = storage.all()
+        key = f"{class_name}.{id}"
+        if key not in data:
+            print('** no instance found **')
+            return
+
+        instance = data[key]
+        setattr(instance, attribute, value)
+        instance.save()
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
