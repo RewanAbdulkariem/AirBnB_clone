@@ -7,8 +7,9 @@ created by Rewan Abdulkariem
 import cmd
 from models import storage
 from models.base_model import BaseModel
+from models.user import User
 
-current_classes = {'BaseModel': BaseModel}
+current_classes = {'BaseModel': BaseModel, 'User' : User}
 
 
 class HBNBCommand(cmd.Cmd):
@@ -173,5 +174,3 @@ class HBNBCommand(cmd.Cmd):
         setattr(instance, attribute, value)
         instance.save()
 
-if __name__ == '__main__':
-    HBNBCommand().cmdloop()
