@@ -154,16 +154,16 @@ class HBNBCommand(cmd.Cmd):
         args = line.split()
         if len(args) == 0:
             print('** class name missing **')
-            return
+            return False
         elif len(args) == 1:
             print('** instance id missing **')
-            return
+            return False
         elif len(args) == 2:
             print('** attribute name missing **')
-            return
+            return False
         elif len(args) == 3:
             print('** value missing **')
-            return
+            return False
 
         class_name = args[0]
         id = args[1]
@@ -172,13 +172,13 @@ class HBNBCommand(cmd.Cmd):
 
         if class_name not in current_classes:
             print("** class doesn't exist **")
-            return
+            return False
 
         data = storage.all()
         key = f"{class_name}.{id}"
         if key not in data:
             print('** no instance found **')
-            return
+            return False
 
         instance = data[key]
         setattr(instance, attribute, value)
@@ -197,10 +197,11 @@ class HBNBCommand(cmd.Cmd):
     def default(self, line):
         """
         """
-        line = line.replace("(", ".")
-        line = line.replace(", ", ".")
-        line = line.replace("\"", "")
-        line = line.replace(")", "")
+        line = line.replace("(", ".").replace(
+            ", ", ".").replace("\"", "").replace(
+            "\'", "").replace(")", "").replace(
+            "{","").replace(":","").replace(
+            "}","").replace(" ",".")
 
         args = line.split('.')
         if len(args) < 2:
@@ -214,7 +215,10 @@ class HBNBCommand(cmd.Cmd):
         elif 'destroy' in args[1]:
             self.do_destroy(args[0] + " " + args[2])
         elif 'update' in args[1]:
-            self.do_update(args[0] + " " + args[2] + " " + args[3] + " " + args[4])
+            for i in range(3, len(args), 2):
+               ret = self.do_update(args[0] + " " + args[2] + " " + args[i] + " " + args[i+1])
+               if not ret:
+                   return
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
