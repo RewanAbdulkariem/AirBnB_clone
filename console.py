@@ -8,14 +8,17 @@ import cmd
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 
-current_classes = {'BaseModel': BaseModel, 'User' : User}
+current_classes = {'BaseModel': BaseModel, 'User' : User, 'Place' : Place, 'State' : State, 'City' : City, 'Amenity': Amenity, 'Review' : Review}
 
 
 class HBNBCommand(cmd.Cmd):
-    """
-    Simple command processor example.
-    """
+    """Simple command processor example."""
     prompt = '(hbnb) '
 
     def do_quit(self, line):
@@ -52,6 +55,9 @@ class HBNBCommand(cmd.Cmd):
         print(new.id)
 
     def get_class_id(self, line):
+        """
+        Helper function to extract class name and instance id from input.
+        """
         args = line.split()
         if len(args) == 0:
             print('** class name missing **')
