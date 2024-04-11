@@ -184,6 +184,16 @@ class HBNBCommand(cmd.Cmd):
         setattr(instance, attribute, value)
         instance.save()
 
+    def do_count(self, line):
+        """
+        """
+        args = line.split()
+        counter = 0
+        for obj in storage.all().values():
+            if args[0] == obj.__class__.__name__:
+                counter +=1
+        print(counter)
+
     def default(self, line):
         """
         """
@@ -192,6 +202,8 @@ class HBNBCommand(cmd.Cmd):
             return
         if args[1] == 'all()':
             self.do_all(args[0])
+        elif args[1] == 'count()':
+            self.do_count(args[0])
 
 
 
