@@ -210,6 +210,9 @@ class HBNBCommand(cmd.Cmd):
         elif 'show' in args[1]:
             args[2] = args[2].replace("\"", "")
             self.do_show(args[0] + " " + args[2])
+        elif 'destroy' in args[1]:
+            args[2] = args[2].replace("\"", "")
+            self.do_destroy(args[0] + " " + args[2])
 
 
 if __name__ == '__main__':
