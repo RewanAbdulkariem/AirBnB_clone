@@ -8,7 +8,6 @@ import unittest
 from models.engine.file_storage import FileStorage
 from models.user import User
 from models import storage
-from datetime import datetime
 
 
 class TestUser(unittest.TestCase):
@@ -20,10 +19,6 @@ class TestUser(unittest.TestCase):
         self.user.password = "password"
         self.user.first_name = "Rewan"
         self.user.last_name = "Khaled"
-
-    def tearDown(self):
-        """Tear down test environment"""
-        del self.user
 
     def test_attributes(self):
         """Test User attributes"""
